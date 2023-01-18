@@ -1,0 +1,134 @@
+[
+    {
+        "model": "pollingapiapp.user",
+        "pk": 1,
+        "fields": {
+            "Name": "Sampat",
+            "Email": "User1@gmail.com",
+            "Phone": 1111111111,
+            "Password": "sam"
+        }
+    },
+    {
+        "model": "pollingapiapp.user",
+        "pk": 2,
+        "fields": {
+            "Name": "User2",
+            "Email": "User2@gmail.com",
+            "Phone": 1111111111,
+            "Password": "Sam"
+        }
+    },
+    {
+        "model": "pollingapiapp.user",
+        "pk": 3,
+        "fields": {
+            "Name": "user#",
+            "Email": "User3@gmail.com",
+            "Phone": 1111111111,
+            "Password": "sam"
+        }
+    },
+    {
+        "model": "pollingapiapp.user",
+        "pk": 4,
+        "fields": {
+            "Name": "User4",
+            "Email": "User4@gami.com",
+            "Phone": 1111111111,
+            "Password": "sam"
+        }
+    },
+    {
+        "model": "pollingapiapp.vote",
+        "pk": 1,
+        "fields": {
+            "VUser": 1,
+            "VQuestion": 1,
+            "Vote": "A"
+        }
+    },
+    {
+        "model": "pollingapiapp.vote",
+        "pk": 2,
+        "fields": {
+            "VUser": 2,
+            "VQuestion": 1,
+            "Vote": "B"
+        }
+    },
+    {
+        "model": "pollingapiapp.vote",
+        "pk": 3,
+        "fields": {
+            "VUser": 3,
+            "VQuestion": 1,
+            "Vote": "C"
+        }
+    },
+    {
+        "model": "pollingapiapp.vote",
+        "pk": 4,
+        "fields": {
+            "VUser": 4,
+            "VQuestion": 1,
+            "Vote": "B"
+        }
+    },
+    {
+        "model": "pollingapiapp.question",
+        "pk": 1,
+        "fields": {
+            "question": "Question1",
+            "QUser": 1,
+            "Op1": "1_Question_One",
+            "Op2": "1_Question_Two",
+            "Op3": "1_Question_Three",
+            "Op4": "1_Question_Four",
+            "Date": "2023-01-17T15:03:51.880Z",
+            "Votes": []
+        }
+    },
+    {
+        "model": "pollingapiapp.question",
+        "pk": 2,
+        "fields": {
+            "question": "Question2",
+            "QUser": 1,
+            "Op1": "2_Question_One",
+            "Op2": "2_Question_Two",
+            "Op3": "2_Question_Three",
+            "Op4": "2_Question_Four",
+            "Date": "2023-01-17T15:03:51.880Z",
+            "Votes": []
+        }
+    },
+    {
+        "model": "pollingapiapp.question",
+        "pk": 3,
+        "fields": {
+            "question": "Question3",
+            "QUser": 2,
+            "Op1": "3_Question_One",
+            "Op2": "3_Question_Two",
+            "Op3": "3_Question_Three",
+            "Op4": "3_Question_Four",
+            "Date": "2023-01-17T15:03:51.880Z",
+            "Votes": []
+        }
+    },
+    {
+        "model": "pollingapiapp.question",
+        "pk": 4,
+        "fields": {
+            "question": "Question3",
+            "QUser": 2,
+            "Op1": "4_Question_One",
+            "Op2": "4_Question_Two",
+            "Op3": "4_Question_Three",
+            "Op4": "4_Question_Four",
+            "Date": "2023-01-17T15:03:51.880Z",
+            "Votes": []
+        }
+    }
+]
