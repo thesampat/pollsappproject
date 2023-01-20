@@ -2,9 +2,19 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .serilizer import *
 from .models import *
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication 
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
+
+# executes every 10 seconds.
+schedule, created = IntervalSchedule.objects.get_or_create(
+    every=10,
+    period=IntervalSchedule.SECONDS,
+)
+
 
 # Create your views here.
 
@@ -14,7 +24,7 @@ class UserViewSet(ModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerilizer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
     def list(self, request):
         queryset = UserProfile.objects.all()
@@ -22,23 +32,22 @@ class UserViewSet(ModelViewSet):
         return Response(serializer.data)
     
     def create(self, request, *args, **kwargs):
-        data = request.data
-        
         try:
-            user= User.objects.filter(username=data['first_name']).get()
+            user_in = User.objects.filter(username=request.data['username']).get()
         except:
-            user = User.objects.create_user(username=request.data['first_name'], password=request.data['password'], email=request.data['email'])
+            user_in = User.objects.create_user(username=request.data['username'], password=request.data['password'], email=request.data['email'])
 
-            
-        data_change = {
-            'User_C': user.pk,
-            'Phone': request.data['Phone']
+        real_data = {
+            'User_C':user_in.pk,
+            'Phone':request.data['phone']
         }
-        instance = UserSerilizer(data=data_change)
-        if instance.is_valid():
-            instance.save()
-            return Response(instance.data)
-        return Response(instance.errors)
+
+        inst = UserSerilizer(data=real_data)
+        if inst.is_valid():
+            inst.save()
+            return Response('User Created')
+        else:
+            return Response(inst.errors)
 
 class QuestionViewSet(ModelViewSet):
     """
@@ -46,7 +55,7 @@ class QuestionViewSet(ModelViewSet):
     """
     queryset = Question.objects.all()
     serializer_class = QuestionSerilizers
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
     def list(self, request):
         queryset = Question.objects.all()
@@ -54,19 +63,33 @@ class QuestionViewSet(ModelViewSet):
         return Response(serializer.data)
     
     def create(self, request, *args, **kwargs):
-        instance = QuestionSerilizers(data=request.data)
-        if instance.is_valid():
-            u = UserProfile.objects.filter(User_C=request.user).get()
-            questions = Question.objects.filter(QUser=u)
 
-            ## if limit reach 5 then return raise error
+        user_instance = request.data['user']
+        
+        data = {
+            'Question':request.data['question'],
+            'Op1':request.data['op1'],
+            'Op2':request.data['op2'],
+            'Op3':request.data['op3'],
+            'Op4':request.data['op4'],
+        }
+
+
+        instance = QuestionSerilizers(data=data)
+        if instance.is_valid():
+            try:
+                user_in = User.objects.filter(username=user_instance).get()
+                u = UserProfile.objects.get(User_C=user_in.pk)
+                questions = Question.objects.filter(QUser=u)
+            except:
+                return Response('error user')
+
+        #     ## if limit reach 5 then return raise error
             if len(questions) == 5:
                 return Response('You Have Reached Your Maximum Daily Limit Of Posting Questions')
-
-
-            user = UserProfile.objects.get(User_C=request.user)
-            instance.save(QUser=user)
-            return Response(instance.data)
+            else:
+                instance.save(QUser=u)
+                return Response(instance.data)
     
         return Response(instance.errors)
     
@@ -89,14 +112,17 @@ class QuestionViewSet(ModelViewSet):
     
 
 
-
+# @csrf_exempt
 class VotesViewSet(ModelViewSet):
+
+    authentication_classes = [BasicAuthentication]
+
     """
     A simple ViewSet for viewing and editing accounts.
     """
     queryset = Vote.objects.all()
     serializer_class = VoteSerilizer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [AllowAny]
 
     def list(self, request):
         queryset = Vote.objects.all()
@@ -104,8 +130,16 @@ class VotesViewSet(ModelViewSet):
         return Response(serializer.data)
     
     def create(self, request, *args, **kwargs):
+        user_instance = request.data['User']
         instance = VoteSerilizer(data=request.data)
-        u = UserProfile.objects.filter(User_C=request.user).get()
+        try:
+            user_in = User.objects.filter(username=user_instance).get()
+            u = UserProfile.objects.get(User_C=user_in.pk)
+            print(u, 'check')
+        except:
+            print('sorry')
+        
+        print(request.data)
 
         if instance.is_valid():
             try:
@@ -115,10 +149,12 @@ class VotesViewSet(ModelViewSet):
                     instance.save(User=u)
                     return Response(instance.data)
                 else:
-                    return Response('You Already Voted For This Question')
+                    return Response({
+                        'already':True
+                    })
 
             except:
-                    pass
+                    return Response('somethign went wrong')
         
         return Response(instance.errors)
     

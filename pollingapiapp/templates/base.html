@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+</head>
+<body style='background-color:rgba(169,169,169, 0.4)'>
+    {% block nav %}
+    <nav class="navbar bg-body-tertiary fixed-top">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <a class="navbar-brand" href="logout_user">Logout</a>
+          <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header bg-dark">
+              <h5 class="offcanvas-title text-light fs-3" id="offcanvasNavbarLabel">Offcanvas</h5>
+              <button type="button" class="btn-close text-light bg-light" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body bg-dark">
+              <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item">
+                  <a class="nav-link active text-light fs-5" aria-current="page" href="home">Home</a>
+                </li>
+    
+                <li class="nav-item">
+                    <a class="nav-link active text-light fs-5" aria-current="page" href="create">Create Poll</a>
+                  </li>
+    
+                  <li class="nav-item">
+                    <a class="nav-link active text-light fs-5" aria-current="page" href="profile">Profile</a>
+                  </li>
+    
+              </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+    {% endblock nav %}
+    {% block body %}{% endblock body %}
+</body> 
+  {% load static %}
+    <script src={%static '/JS/index.js'%}></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="plate mt-4 pt-3">
+    <div class='container-fluid container-md container-lg mt-3 mt-md-4 mt-lg-5 rounded rounded-0 rounded-md-4 mx-auto pt-5 pt-md-2 pt-lg-3 pt-md-3 px-2 px-md-3 px-lg-4 shadow shadow-5' style='background-color:rgba(150, 255, 255, 0.4); height: 750px'>
+        <div class='w-100 mx-auto p-2 p-md-1' style='max-width: 700px;'>
+            <h3>Create Your Poll</h3>
+            <br class='text-dark'>
+        <form action='create_poll' method='POST'>
+            {% csrf_token %}            
+            <div class="form-group">
+              <label for="exampleInputEmail1">Enter Question :</label>
+              <input type="text" name='question' class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Question">
+            </div>
+
+            <div class="form-group my-1 mt-5">
+                <label for="option1">Option 1 :</label>
+                <input type="text" name='op1' class='form-control' id='option1'>
+            </div>
+
+            <div class="form-group my-1">
+                <label for="option2">Option 2 :</label>
+                <input type="text" name='op2' class='form-control' id='option2'>
+            </div>
+
+            <div class="form-group my-1">
+                <label for="option3">Option 3 :</label>
+                <input type="text" name='op3' class='form-control' id='option3'>
+            </div>
+
+            <div class="form-group my-1">
+                <label for="option4">Option 4 :</label>
+                <input type="text" name='op4' class='form-control' id='option4'>
+            </div>
+            <div class='text-center'>
+                <button type="submit" class="btn btn-primary mt-3">Create Poll</button>
+            </div>
+          </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}
+
+
+
+
+
+
+
+        
